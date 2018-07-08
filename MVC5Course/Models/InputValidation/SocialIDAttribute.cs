@@ -15,6 +15,12 @@ namespace MVC5Course.Models.InputValidation
 
         public override bool IsValid(object value)
         {
+            if (value == null)
+                return true;
+            string str = (string)value;
+            if (str == "")
+                return true;
+
             return isIdentificationId((string)value);
         }
 

@@ -11,9 +11,9 @@ namespace MVC5Course.Models
     {
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
-            if((this.FirstName != null && this.LastName == null) || (this.FirstName == null && this.LastName != null))
+            if(this.Longitude.HasValue != this.Latitude.HasValue)
             {
-                yield return new ValidationResult("姓名如有填寫需完整", new string[] { "FirstName", "LastName" });
+                yield return new ValidationResult("經緯度必須一起設定", new string[] { "Longitude", "Latitude" });
             }
         }
     }
@@ -22,19 +22,25 @@ namespace MVC5Course.Models
     {
         [Required]
         public int ClientId { get; set; }
-        
+
+        [Required]
         [StringLength(40, ErrorMessage="欄位長度不得大於 40 個字元")]
         public string FirstName { get; set; }
         
         [StringLength(40, ErrorMessage="欄位長度不得大於 40 個字元")]
         public string MiddleName { get; set; }
-        
+
+        [Required]
         [StringLength(40, ErrorMessage="欄位長度不得大於 40 個字元")]
         public string LastName { get; set; }
         
         [StringLength(1, ErrorMessage="欄位長度不得大於 1 個字元")]
         public string Gender { get; set; }
+
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public Nullable<System.DateTime> DateOfBirth { get; set; }
+
+        [Required]
         public Nullable<double> CreditRating { get; set; }
         
         [StringLength(7, ErrorMessage="欄位長度不得大於 7 個字元")]
@@ -57,9 +63,11 @@ namespace MVC5Course.Models
         public string ZipCode { get; set; }
         public Nullable<double> Longitude { get; set; }
         public Nullable<double> Latitude { get; set; }
-        [SocialID]
         public string Notes { get; set; }
-    
+        [SocialID]
+        public string SocialID { get; set; }
+        public bool Enable { get; set; }
+
         public virtual Occupation Occupation { get; set; }
         public virtual ICollection<Order> Order { get; set; }
     }
