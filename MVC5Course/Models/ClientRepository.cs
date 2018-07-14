@@ -17,7 +17,7 @@ namespace MVC5Course.Models
 
         public IQueryable<Client> All()
         {
-            return base.All().Where(x => x.Enable == true);
+            return base.All().Where(x => x.Disable == false);
         }
 
         public IQueryable FindName(string keyword)
@@ -37,7 +37,7 @@ namespace MVC5Course.Models
 
         public override void Delete(Client client)
         {
-            client.Enable = false;
+            client.Disable = true;
         }
 	}
 

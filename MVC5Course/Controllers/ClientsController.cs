@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Data.Entity.Validation;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -29,6 +30,44 @@ namespace MVC5Course.Controllers
             var client = repo.All();
             return View(client.OrderByDescending(x=>x.ClientId).Take(10));
         }
+
+        [HttpPost]
+        [Route("BatchUpdate")]
+        [HandleError(ExceptionType = typeof(DbEntityValidationException), View = "Error_DbEntityValidationException")]
+        public ActionResult BatchUpdate(ClientBatchVM[] data)
+        {
+            if(ModelState.IsValid)
+            {
+                foreach(var vm in data)
+                {
+                    var client = db.Client.Find(vm.ClientId);
+                    client.FirstName = vm.FirstName;
+                    client.MiddleName = vm.MiddleName;
+                    client.LastName = vm.LastName;
+                }
+                //try
+                //{
+                    db.SaveChanges();
+                //}
+                //catch (DbEntityValidationException ex)
+                //{
+                //    List<string> errors = new List<string>();
+                //    foreach (var vError in ex.EntityValidationErrors)
+                //    {
+                //        foreach (var err in vError.ValidationErrors)
+                //        {
+                //            errors.Add(err.PropertyName + ": " + err.ErrorMessage);
+                //        }
+                //    }
+
+                //    return Content(String.Join(", ", errors.ToArray()));
+                //}
+                return RedirectToAction("Index");
+            }
+            ViewData.Model = repo.All().OrderByDescending(x => x.ClientId).Take(10);
+            return View("Index");
+        }
+
         [Route("Search")]
         public ActionResult Search(string keyword)
         {
@@ -96,13 +135,12 @@ namespace MVC5Course.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("Edit/{id}")]
-        public ActionResult Edit([Bind(Include = "ClientId,FirstName,MiddleName,LastName,Gender,DateOfBirth,CreditRating,XCode,OccupationId,TelephoneNumber,Street1,Street2,City,ZipCode,Longitude,Latitude,Notes,SocialID")] Client client)
+        public ActionResult Edit(int id, FormCollection form)
         {
-            if (ModelState.IsValid)
+            var client = repo.Find(id);
+            if (TryUpdateModel(client, "", null, new string[] { "FirstName" }))
             {
-                var db = repo.UnitOfWork.Context;
-                db.Entry(client).State = EntityState.Modified;
-                db.SaveChanges();
+                repo.UnitOfWork.Commit();
                 return RedirectToAction("Index");
             }
             ViewBag.OccupationId = new SelectList(occuRepo.All(), "OccupationId", "OccupationName", client.OccupationId);

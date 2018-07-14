@@ -14,10 +14,12 @@ namespace MVC5Course.Models
     
     public partial class Client
     {
+    	partial void Init();
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Client()
         {
             this.Order = new HashSet<Order>();
+    		this.Init();
         }
     
         public int ClientId { get; set; }
@@ -38,7 +40,7 @@ namespace MVC5Course.Models
         public Nullable<double> Latitude { get; set; }
         public string Notes { get; set; }
         public string SocialID { get; set; }
-        public bool Enable { get; set; }
+        public bool Disable { get; set; }
     
         public virtual Occupation Occupation { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

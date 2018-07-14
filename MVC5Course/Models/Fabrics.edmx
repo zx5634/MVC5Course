@@ -27,7 +27,7 @@
           <Property Name="Latitude" Type="float" />
           <Property Name="Notes" Type="nvarchar(max)" />
           <Property Name="SocialID" Type="nchar" MaxLength="10" />
-          <Property Name="Enable" Type="bit" Nullable="false" />
+          <Property Name="Disable" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="Occupation">
           <Key>
@@ -255,9 +255,9 @@
           <Property Name="Latitude" Type="Double" />
           <Property Name="Notes" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="SocialID" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
-          <Property Name="Enable" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Occupation" Relationship="FabricsModel.FK_Client_Occupation" FromRole="Client" ToRole="Occupation" />
           <NavigationProperty Name="Order" Relationship="FabricsModel.fk_Order_ClientId" FromRole="Client" ToRole="Order" />
+          <Property Name="Disable" Type="Boolean" Nullable="false" />
         </EntityType>
         <Association Name="FK_Client_Occupation">
           <End Type="FabricsModel.Occupation" Role="Occupation" Multiplicity="0..1" />
@@ -333,7 +333,7 @@
           <EntitySetMapping Name="Client">
             <EntityTypeMapping TypeName="FabricsModel.Client">
               <MappingFragment StoreEntitySet="Client">
-                <ScalarProperty Name="Enable" ColumnName="Enable" />
+                <ScalarProperty Name="Disable" ColumnName="Disable" />
                 <ScalarProperty Name="SocialID" ColumnName="SocialID" />
                 <ScalarProperty Name="Notes" ColumnName="Notes" />
                 <ScalarProperty Name="Latitude" ColumnName="Latitude" />

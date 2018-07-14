@@ -9,6 +9,11 @@ namespace MVC5Course.Models
     [MetadataType(typeof(ClientMetaData))]
     public partial class Client : IValidatableObject
     {
+        partial void Init()
+        {
+            this.Gender = "M";
+        }
+
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
             if(this.Longitude.HasValue != this.Latitude.HasValue)
@@ -26,7 +31,8 @@ namespace MVC5Course.Models
         [Required]
         [StringLength(40, ErrorMessage="欄位長度不得大於 40 個字元")]
         public string FirstName { get; set; }
-        
+
+        [Required]
         [StringLength(40, ErrorMessage="欄位長度不得大於 40 個字元")]
         public string MiddleName { get; set; }
 
@@ -66,7 +72,7 @@ namespace MVC5Course.Models
         public string Notes { get; set; }
         [SocialID]
         public string SocialID { get; set; }
-        public bool Enable { get; set; }
+        public bool Disable { get; set; }
 
         public virtual Occupation Occupation { get; set; }
         public virtual ICollection<Order> Order { get; set; }

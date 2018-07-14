@@ -8,11 +8,13 @@ namespace MVC5Course.Controllers
 {
     public class HomeController : BaseController
     {
+        [產生ViewBag下有一個Message可以用Attribute]
         public ActionResult Index()
         {
             return View();
         }
 
+        [產生ViewBag下有一個Message可以用Attribute]
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";
@@ -20,6 +22,7 @@ namespace MVC5Course.Controllers
             return View();
         }
 
+        [LocalOnly]
         public ActionResult Contact()
         {
             ViewBag.Message = "Your contact page.";
