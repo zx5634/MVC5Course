@@ -1,4 +1,4 @@
-﻿@model MVC5Course.Models.Client
+﻿@model Client
 
 @{
     ViewBag.Title = "Details";
@@ -148,6 +148,8 @@
 
     </dl>
 </div>
+@*@Html.Partial("OrderList",Model.Order.ToList())*@
+@Html.Action("Details_OrderList", new { id = Model.ClientId })
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.ClientId }) |
     @Html.ActionLink("Back to List", "Index")

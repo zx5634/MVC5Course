@@ -46,6 +46,7 @@ namespace MVC5Course.Models
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public Nullable<System.DateTime> DateOfBirth { get; set; }
 
+        [UIHint("CreditRating")]
         [Required]
         public Nullable<double> CreditRating { get; set; }
         
