@@ -2,6 +2,10 @@
 
 @{
     ViewBag.Title = "Index";
+    if(IsAjax)
+    {
+        Layout = "";
+    }
 }
 
 <h2>Index</h2>
@@ -41,11 +45,22 @@
             @Html.DisplayFor(modelItem => item.Stock)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ProductId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ProductId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ProductId })
+            @{ 
+                AjaxOptions ajaxOptions = new AjaxOptions { UpdateTargetId = "Details" };
+            }
+            @Ajax.ActionLink("Edit", "Edit", new { id=item.ProductId }, ajaxOptions) |
+            @Ajax.ActionLink("Details", "Details", new { id=item.ProductId }, ajaxOptions) |
+            @Ajax.ActionLink("Delete", "Delete", new { id=item.ProductId }, new AjaxOptions() { HttpMethod = "POST", UpdateTargetId = "main", Confirm = "你確定要刪除嗎？" })
         </td>
     </tr>
 }
 
 </table>
+
+@Html.PagedListPager(Model as IPagedList, (p) => Url.Action("Index", new { pageNo = p }), PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing("#main"))
+
+<div id="Details"></div>
+
+@section Scripts{
+    <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+}

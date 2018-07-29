@@ -21,19 +21,22 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("首頁", "Index", "Home")</li>
-                    <li>@Html.ActionLink("關於", "About", "Home")</li>
-                    <li>@Html.ActionLink("連絡人", "Contact", "Home")</li>
-                    <li>@Html.ActionLink("Product1", "Index", "Products")</li>
-                    <li>@Html.ActionLink("Product2", "Index2", "Products")</li>
-                    <li>@Html.ActionLink("Client", "Index", "Clients")</li>
-                    <li>@Html.ActionLink("ActionResult", "Index", "AR")</li>
+                    <li>@Html.ActionLink("首頁", "Index", "Home", new { area = "" }, null)</li>
+                    <li>@Html.ActionLink("關於", "About", "Home", new { area = "" }, null)</li>
+                    <li>@Html.ActionLink("連絡人", "Contact", "Home", new { area = "" }, null)</li>
+                    <li>@Html.ActionLink("Product1", "Index", "Products", new { area = "" }, null)</li>
+                    <li>@Html.ActionLink("Product2", "Index2", "Products", new { area = "" }, null)</li>
+                    <li>@Html.ActionLink("Client", "Index", "Clients", new { area = "" }, null)</li>
+                    <li>@Html.ActionLink("ActionResult", "Index", "AR", new { area = "" }, null)</li>
+                    <li>@Html.ActionLink("Admin's Home", "Index", "Home", new { area = "Admin" }, null)</li>
                 </ul>
             </div>
         </div>
     </div>
     <div class="container body-content">
-        @RenderBody()
+        <div id="main">
+            @RenderBody()
+        </div>
         <hr />
         <footer>
             <p>&copy; @DateTime.Now.Year - 我的 ASP.NET 應用程式</p>

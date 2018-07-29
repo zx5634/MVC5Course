@@ -8,15 +8,16 @@ using System.Web;
 using System.Web.Mvc;
 using MVC5Course.Models;
 using Omu.ValueInjecter;
+using X.PagedList;
 
 namespace MVC5Course.Controllers
 {
     public class ProductsController : BaseController
     {
         // GET: Products
-        public ActionResult Index()
+        public ActionResult Index(int pageNo = 1)
         {
-            var data = db.Product.OrderByDescending(x => x.ProductId).Take(10).ToList();
+            var data = db.Product.OrderByDescending(x => x.ProductId).ToPagedList(pageNumber: pageNo, pageSize: 10);
             return View(data);
         }
 
@@ -169,7 +170,14 @@ namespace MVC5Course.Controllers
             {
                 db.Entry(product).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                if (Request.IsAjaxRequest())
+                {
+                    return new EmptyResult();
+                }
+                else
+                {
+                    return RedirectToAction("Index");
+                }
             }
             return View(product);
         }
@@ -191,7 +199,7 @@ namespace MVC5Course.Controllers
 
         // POST: Products/Delete/5
         [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
             Product product = db.Product.Find(id);
@@ -199,7 +207,10 @@ namespace MVC5Course.Controllers
             OrderLine[] orderLine = db.OrderLine.Where(x => x.ProductId == id).ToArray();
             db.OrderLine.RemoveRange(orderLine);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            //return RedirectToAction("Index");
+
+            var data = db.Product.OrderByDescending(x => x.ProductId).Take(10).ToList();
+            return View("Index", data);
         }
 
         protected override void Dispose(bool disposing)

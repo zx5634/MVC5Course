@@ -2,12 +2,16 @@
 
 @{
     ViewBag.Title = "Edit";
+    if (IsAjax)
+    {
+        Layout = "";
+    }
 }
 
 <h2>Edit</h2>
 
 
-@using (Html.BeginForm())
+@using (Ajax.BeginForm(new AjaxOptions { UpdateTargetId = "Details" }))
 {
     @Html.AntiForgeryToken()
     
